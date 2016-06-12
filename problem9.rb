@@ -1,17 +1,20 @@
-require 'awesome_print'
-
 poss_num = (1..1000).to_a
-poss_num.select! { |x| x ** 2 < 1000 }
-p poss_num.reverse!
 
-potential = []
+a = 0
+b = 0
+c = 0
 
-poss_num.each.with_index do |x, c_index|
-  poss_num[c_index+1..-1].each.with_index do |j, b_index|
-    poss_num[b_index+1..-1].each do |z|
-      potential << [x, j, z] if Math.sqrt( (x ** 2) / (j ** 2) ) % 1 == 0
-    end
-  end
+x = 0
+
+# m maximum is 32
+
+while (a + b + c < 1000)
+    m = x + 24
+    n = x
+    a = m ** 2 - n ** 2
+    b = 2*m*n
+    c = m ** 2 + n ** 2
+
+    puts a + b + c
+    x += 1
 end
-
-ap potential[0..3]
