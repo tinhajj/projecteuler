@@ -1,17 +1,15 @@
-require 'awesome_print'
+poss_num = (1..998).to_a
 
-poss_num = (1..1000).to_a
-poss_num.select! { |x| x ** 2 < 1000 }
-p poss_num.reverse!
+# a + b + c = 1000
+# a = 1000 - b - c
 
-potential = []
-
-poss_num.each.with_index do |x, c_index|
-  poss_num[c_index+1..-1].each.with_index do |j, b_index|
-    poss_num[b_index+1..-1].each do |z|
-      potential << [x, j, z] if Math.sqrt( (x ** 2) / (j ** 2) ) % 1 == 0
-    end
-  end
+for m in 1..1000
+	for delta in 1..1000
+		n = m + delta
+		c = n ** 2 + m ** 2
+		next if c > 1000
+		a = n ** 2 - m ** 2
+		b = 2 * n * m
+		puts "#{a * b * c}" if a + b + c == 1000
+	end
 end
-
-ap potential[0..3]
