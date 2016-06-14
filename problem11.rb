@@ -24,18 +24,52 @@ max = 0
 
 rows = grid.split("\n")
 
-# Find the max for left and right values
-rows.each do |row|
-  # Fix the row
-  row = row.split(" ")
-  row.map! { |x| x.to_i }
+# Setup rows
+rows.map! do |row| 
+  row = row.split(" "); 
+  row.map! { |x| x.to_i } 
+end
 
-  row.each.with_index do |x, index|
-    if ( row[index + 3] )
-      product = row[index..index+3].inject(:*)
-      max = product if max < product
+# Find max for left/right
+rows.each.with_index do |row, index|
+  if ( row[index+3] )
+    product = row[index..index+3].inject(1,:*)
+    max = product if product > max
+  end
+end
+
+# Find max for up/down
+rows.each.with_index do |row, rows_index|
+  if ( rows[rows_index+3] )
+    row.each.with_index do |element, row_index|
+      product = element * rows[rows_index+1][row_index] * rows[rows_index+2][row_index] * rows[rows_index+3][row_index]
+      max = product if product > max
     end
   end
 end
 
-p max
+# Find max left diag
+rows.each.with_index do |row, rows_index|
+  if ( rows[rows_index+3] )
+    row.each.with_index do |element, row_index|
+      if ( row[row_index+3] )
+        product = element * rows[rows_index+1][row_index+1] * rows[rows_index+2][row_index+2] * rows[rows_index+3][row_index+3]
+        max = product if product > max
+      end
+    end
+  end
+end
+
+# Find max right diag
+rows.each.with_index do |row, rows_index|
+  if ( rows[rows_index+3] )
+    row.each.with_index do |element, row_index|
+      if ( row[row_index-3] )
+        product = element * rows[rows_index+1][row_index-1] * rows[rows_index+2][row_index-2] * rows[rows_index+3][row_index-3]
+        max = product if product > max
+      end
+    end
+  end
+end
+
+puts max
