@@ -8,12 +8,14 @@ root_n = Math.sqrt(upper_limit).ceil
 
 for i in 2..root_n
   if primes[i] == true
-    j = i ** 2
+    base = i ** 2
+    j = base
     multiple = 0
-    while ( j < upper_limit )
+
+    while ( j <= upper_limit )
       primes[j] = false
-      j = j + ( multiple * i )
       multiple += 1
+      j = base + (multiple * i)
     end
   end
 end
