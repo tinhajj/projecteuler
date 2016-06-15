@@ -17,9 +17,21 @@
 require 'prime'
 
 triangle_numbers = Enumerator.new do |yielder|
+  current_nat = 1
+  triangle = 1
+  loop do
+    yielder.yield triangle
+    current_nat += 1
+    triangle = triangle + current_nat
+  end
 end
 
-exponents = Prime.prime_division(196).map { |x| x[1] } # Get exponents of each prime factor
-exponents.map! { |x| x + 1 }
-puts exponents.inject(1, :*)
+num_divisors = 0
+while ( num_divisors < 500 )
+  current_triangle = triangle_numbers.next
+  exponents = Prime.prime_division(current_triangle).map { |x| x[1] } # Get exponents of each prime factor
+  exponents.map! { |x| x + 1 }
+  num_divisors = exponents.inject(1, :*)
+end
 
+puts current_triangle
