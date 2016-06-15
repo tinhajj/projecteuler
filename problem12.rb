@@ -16,6 +16,10 @@
 #What is the value of the first triangle number to have over five hundred divisors?
 require 'prime'
 
+triangle_numbers = Enumerator.new do |yielder|
+end
+
 exponents = Prime.prime_division(196).map { |x| x[1] } # Get exponents of each prime factor
 exponents.map! { |x| x + 1 }
 puts exponents.inject(1, :*)
+
