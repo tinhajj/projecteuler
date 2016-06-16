@@ -1,33 +1,33 @@
-# not sure why I need this wrapped but idgaf
-def collatz_wrapper ( number )
-  collatz_array = collatz ( number )
-  if ( collatz_array.size == 1 )
-    collatz_array
+def collatz(number)
+  if (number == 1 || number == 0)
+    nil
+  elsif (number.even?)
+    number / 2
   else
-    [number] + collatz_array[0..-2]
+    3 * number + 1
   end
 end
 
-# this returns double 1 at the end of the array for some reason
-def collatz ( number )
-  if ( number == 1)
-    return [1]
-  elsif ( number.even? )
-    return [number / 2, collatz( number/ 2 )].flatten
-  elsif ( number.odd? )
-    return [3 * number + 1, collatz(3 * number  + 1)].flatten
+def collatz_enum(number)
+  Enumerator.new do |y|
+    loop do
+      number = collatz(number)
+      y << number
+    end
   end
 end
 
-onemil = (1..1000000).to_a
-
-counter = 1
-current_max = 0
-while ( counter < onemil.size )
-  current_sequence = collatz_wrapper( onemil[counter] )
-  onemil.reject!{ |x| current_sequence.include?(x) }
-  p onemil.size
-  counter += 1
+max_size = 0
+values = Array.new(1000000, 0)
+values.each_with_index do |size, index|
+  if (max_size < size)
+    current_size = 0
+    current_collatz = 0
+    sequence = collatz_enum(index)
+    while (current_collatz && values[current_collatz])
+      current_collatz =  sequence.next
+      current_size += 1
+    end
+  end
 end
-
-#Collatz sequence are graphs
+sequence = collatz_enum(13)
