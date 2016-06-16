@@ -2,9 +2,9 @@
 def collatz_wrapper ( number )
   collatz_array = collatz ( number )
   if ( collatz_array.size == 1 )
-    return collatz_array
+    collatz_array
   else
-    collatz_array[0..-2]
+    [number] + collatz_array[0..-2]
   end
 end
 
@@ -13,21 +13,21 @@ def collatz ( number )
   if ( number == 1)
     return [1]
   elsif ( number.even? )
-    return [number / 2, collatz( number/ 2)].flatten
+    return [number / 2, collatz( number/ 2 )].flatten
   elsif ( number.odd? )
     return [3 * number + 1, collatz(3 * number  + 1)].flatten
   end
 end
 
-p collatz_wrapper( 1 )
+onemil = (1..1000000).to_a
 
-onemil = 1..1000000
-
-counter = 0
+counter = 1
 current_max = 0
 while ( counter < onemil.size )
-  collatz_wrapper( counter )
   current_sequence = collatz_wrapper( onemil[counter] )
   onemil.reject!{ |x| current_sequence.include?(x) }
+  p onemil.size
   counter += 1
 end
+
+#Collatz sequence are graphs
