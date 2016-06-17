@@ -17,17 +17,15 @@ def collatz_enum(number)
   end
 end
 
-max_size = 0
-values = Array.new(1000000, 0)
-values.each_with_index do |size, index|
-  if (max_size < size)
-    current_size = 0
-    current_collatz = 0
+best_num = 0
+values = Array.new(1000000, false)
+values.each_with_index do |tested, index|
+  if (!tested)
     sequence = collatz_enum(index)
-    while (current_collatz && values[current_collatz])
-      current_collatz =  sequence.next
-      current_size += 1
+    current = collatz_enum.next
+    while (current)
+      values[index]
+      current = collatz_enum.next
     end
   end
 end
-sequence = collatz_enum(13)
