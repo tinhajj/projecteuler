@@ -1,3 +1,5 @@
+t1 = Time.now
+
 def collatz(number)
   if (number == 1 || number == 0)
     nil
@@ -17,15 +19,37 @@ def collatz_enum(number)
   end
 end
 
-best_num = 0
-values = Array.new(1000000, false)
-values.each_with_index do |tested, index|
-  if (!tested)
-    sequence = collatz_enum(index)
-    current = collatz_enum.next
-    while (current)
-      values[index]
-      current = collatz_enum.next
-    end
+def explore(sequence, hash, index, size)
+  if (index == nil)
+    size
+  elsif (hash[index] != 0)
+    size = size + hash[index]
+  else
+    current_number = sequence.next
+    total_size = explore(sequence, hash, current_number, size + 1)
+    hash[index] = total_size - size
+    total_size
   end
 end
+
+onemil = Hash.new(0)
+
+1.upto(1000000) do |x|
+  sequence = collatz_enum(x)
+  explore(sequence, onemil, x, 0)
+end
+
+max = 0
+max_index = 1
+
+onemil.each do |key, value|
+  if (key < 1000000)
+    max_index, max = key, value if max < value
+  end
+end
+
+p max
+p max_index
+
+t2 = Time.now
+p t2 - t1
