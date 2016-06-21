@@ -30,7 +30,6 @@
 # 1000 = one thousand
 
 total = 0
-numbers = (1..1000).to_a
 
 # 1 to 10 =
 singles = "one two three four five six seven eight nine ten".gsub!(/ /, "")
@@ -42,12 +41,22 @@ total += teens.size
 
 # 20 - 99
 single = "one two three four five six seven eight nine".gsub!(/ /, "")
-tens = %w{ twenty thirty fourty fifty sixty seventy eighty ninety }
+tens = %w{ twenty thirty forty fifty sixty seventy eighty ninety }
 tens.each do |ten|
-  total += ten.size * 9 + single.size
+  tens_size = (ten.size * 10 + single.size)
+  total += tens_size
 end
 
-p total
+under_100 = total
 
-numbers = "onetwothreefourfivesixseveneightnineteneleventwelvethirteenfourteenfifteensixteenseventeeneighteennineteentwentytwentyonetwentytwotwentythreetwentyfourtwentyfivetwentysixtwentyseventwentyeighttwentyninethirtythirtyonethirtytwothirtythreethirtyfourthirtyfivethirtysixthirtyseventhirtyeightthirtyninefortyfortyonefortytwofortythreefortyfourfortyfivefortysixfortysevenfortyeightfortyninefiftyfiftyonefiftytwofiftythreefiftyfourfiftyfivefiftysixfiftysevenfiftyeightfiftyninesixtysixtyonesixtytwosixtythreesixtyfoursixtyfivesixtysixsixtysevensixtyeightsixtynineseventyseventyoneseventytwoseventythreeseventyfourseventyfiveseventysixseventysevenseventyeightseventynineeightyeightyoneeightytwoeightythreeeightyfoureightyfiveeightysixeightyseveneightyeighteightynineninetyninetyoneninetytwoninetythreeninetyfourninetyfiveninetysixninetysevenninetyeightninetynineonehundred".gsub!(/ /, "")
-p numbers
+# 100 - 999
+hundreds = %w{ onehundred twohundred threehundred fourhundred fivehundred sixhundred sevenhundred eighthundred ninehundred }
+
+hundreds.each do |hundred|
+	hundred_size = hundred.size * 100 + "and".size * 99 + under_100
+	total += hundred_size
+end
+
+total += "onethousand".size
+
+p total
